@@ -1,0 +1,22 @@
+{
+  "name": "六爻易占記錄器",
+  "short_name": "六爻易占",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#080d0b",
+  "theme_color": "#0d1b15",
+  "orientation": "portrait",
+  "description": "一個精緻的六爻占卜記錄程式，提供年月干支與旬空自動計算、本變卦解析與歷史儲存。",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='192' height='192' viewBox='0 0 192 192'><rect width='192' height='192' rx='40' fill='%23080d0b'/><circle cx='96' cy='96' r='60' fill='none' stroke='%23d4af37' stroke-width='8'/><line x1='60' y1='96' x2='132' y2='96' stroke='%2310b981' stroke-width='8'/><line x1='60' y1='76' x2='90' y2='76' stroke='%2310b981' stroke-width='8'/><line x1='102' y1='76' x2='132' y2='76' stroke='%2310b981' stroke-width='8'/><line x1='60' y1='116' x2='90' y2='116' stroke='%2310b981' stroke-width='8'/><line x1='102' y1='116' x2='132' y2='116' stroke='%2310b981' stroke-width='8'/></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23080d0b'/><circle cx='256' cy='256' r='160' fill='none' stroke='%23d4af37' stroke-width='20'/><line x1='160' y1='256' x2='352' y2='256' stroke='%2310b981' stroke-width='20'/><line x1='160' y1='200' x2='240' y2='200' stroke='%2310b981' stroke-width='20'/><line x1='272' y1='200' x2='352' y2='200' stroke='%2310b981' stroke-width='20'/><line x1='160' y1='312' x2='240' y2='312' stroke='%2310b981' stroke-width='20'/><line x1='272' y1='312' x2='352' y2='312' stroke='%2310b981' stroke-width='20'/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

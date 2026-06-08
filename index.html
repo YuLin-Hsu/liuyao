@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>六爻易占記錄器 - 行動記事本</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#0d1b15">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Local Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- lunar-javascript CDN Library for calendar Stem-Branch and Xun Kong calculations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lunar-javascript/1.7.4/lunar.min.js"></script>
+</head>
+<body>
+    <!-- Background Decor (Vibrant Jade and Gold Orbs) -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    
+    <!-- Outer Container: Centered Phone Simulator on Desktop, Fullscreen on Mobile -->
+    <div class="phone-wrapper">
+        <div class="phone-frame">
+            <!-- Simulated Camera Notch -->
+            <div class="phone-notch"></div>
+            
+            <!-- Simulated Android Status Bar -->
+            <div class="status-bar">
+                <span class="status-time" id="statusBarTime">12:00</span>
+                <div class="status-icons">
+                    <span class="icon">📶</span>
+                    <span class="icon">🔋</span>
+                </div>
+            </div>
+            
+            <!-- App Content Area (Scrollable) -->
+            <div class="app-container">
+                <!-- App Header -->
+                <header class="app-header">
+                    <div class="header-main">
+                        <div class="title-section">
+                            <h1>六爻易占</h1>
+                            <p class="app-tagline">行動記錄筆記</p>
+                        </div>
+                        
+                        <!-- Top-Right Calendar & Xun Kong Info Area -->
+                        <div class="calendar-badge" id="calendarBadge">
+                            <div class="four-pillars" id="fourPillars">
+                                <div class="pillar-col">
+                                    <span class="pillar-label">年</span>
+                                    <span class="pillar-stem" id="stemYear">丙</span>
+                                    <span class="pillar-branch" id="branchYear">午</span>
+                                </div>
+                                <div class="pillar-col">
+                                    <span class="pillar-label">月</span>
+                                    <span class="pillar-stem" id="stemMonth">癸</span>
+                                    <span class="pillar-branch" id="branchMonth">巳</span>
+                                </div>
+                                <div class="pillar-col">
+                                    <span class="pillar-label">日</span>
+                                    <span class="pillar-stem" id="stemDay">癸</span>
+                                    <span class="pillar-branch" id="branchDay">酉</span>
+                                </div>
+                                <div class="pillar-col">
+                                    <span class="pillar-label">時</span>
+                                    <span class="pillar-stem" id="stemHour">癸</span>
+                                    <span class="pillar-branch" id="branchHour">亥</span>
+                                </div>
+                            </div>
+                            <div class="calendar-right-col">
+                                <div class="date-picker-trigger" id="datePickerTrigger">
+                                    <span class="solar-date-text" id="solarDateText">2026年5月31日</span>
+                                    <span class="time-text" id="timeText">22:00</span>
+                                    <input type="datetime-local" id="solarDatePicker" class="hidden-date-picker">
+                                </div>
+                                <div class="xk-badge-container">
+                                    <span class="ym-text" id="ymDay">馬亥</span>
+                                    <span class="xk-text" id="xkDay">戌亥空</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <main class="app-main">
+                    <!-- Progress Tracker / Status Message -->
+                    <div class="record-status" id="recordStatus">
+                        請點擊下方按鈕，由下往上記錄六爻
+                    </div>
+
+                    <!-- Middle: Vertical Six-Line Record (From bottom to top) -->
+                    <!-- In DOM, we write Line 6 at top to Line 1 at bottom, so visually it represents top-to-bottom but we record L1 first. -->
+                    <div class="hexagram-lines-list" id="linesList">
+                        <div class="lines-header-row">
+                            <!-- Palace Header Info (shown in red when complete) -->
+                            <div class="palace-header-info" id="palaceHeaderInfo"></div>
+                            <button type="button" class="btn-theme-toggle" id="btnThemeToggle" title="切換主題">☀️</button>
+                        </div>
+
+                        <!-- Line 6 (上爻) -->
+                        <div class="line-row" data-index="5" id="lineRow-5">
+                            <div class="line-left-section">
+                                <span class="line-palace-branch" id="palace-5"></span>
+                                <span class="line-shiying" id="shiying-5"></span>
+                            </div>
+                            <div class="line-symbol-container">
+                                <div class="line-symbol" id="symbol-5">— —</div>
+                            </div>
+                            <div class="line-details">
+                                <span class="line-najia-branch" id="najia-5"></span>
+                            </div>
+                            <span class="line-beast" id="beast-5"></span>
+                        </div>
+
+                        <!-- Line 5 (五爻) -->
+                        <div class="line-row" data-index="4" id="lineRow-4">
+                            <div class="line-left-section">
+                                <span class="line-palace-branch" id="palace-4"></span>
+                                <span class="line-shiying" id="shiying-4"></span>
+                            </div>
+                            <div class="line-symbol-container">
+                                <div class="line-symbol" id="symbol-4">— —</div>
+                            </div>
+                            <div class="line-details">
+                                <span class="line-najia-branch" id="najia-4"></span>
+                            </div>
+                            <span class="line-beast" id="beast-4"></span>
+                        </div>
+
+                        <!-- Line 4 (四爻) -->
+                        <div class="line-row" data-index="3" id="lineRow-3">
+                            <div class="line-left-section">
+                                <span class="line-palace-branch" id="palace-3"></span>
+                                <span class="line-shiying" id="shiying-3"></span>
+                            </div>
+                            <div class="line-symbol-container">
+                                <div class="line-symbol" id="symbol-3">— —</div>
+                            </div>
+                            <div class="line-details">
+                                <span class="line-najia-branch" id="najia-3"></span>
+                            </div>
+                            <span class="line-beast" id="beast-3"></span>
+                        </div>
+
+                        <!-- Line 3 (三爻) -->
+                        <div class="line-row" data-index="2" id="lineRow-2">
+                            <div class="line-left-section">
+                                <span class="line-palace-branch" id="palace-2"></span>
+                                <span class="line-shiying" id="shiying-2"></span>
+                            </div>
+                            <div class="line-symbol-container">
+                                <div class="line-symbol" id="symbol-2">— —</div>
+                            </div>
+                            <div class="line-details">
+                                <span class="line-najia-branch" id="najia-2"></span>
+                            </div>
+                            <span class="line-beast" id="beast-2"></span>
+                        </div>
+
+                        <!-- Line 2 (二爻) -->
+                        <div class="line-row" data-index="1" id="lineRow-1">
+                            <div class="line-left-section">
+                                <span class="line-palace-branch" id="palace-1"></span>
+                                <span class="line-shiying" id="shiying-1"></span>
+                            </div>
+                            <div class="line-symbol-container">
+                                <div class="line-symbol" id="symbol-1">— —</div>
+                            </div>
+                            <div class="line-details">
+                                <span class="line-najia-branch" id="najia-1"></span>
+                            </div>
+                            <span class="line-beast" id="beast-1"></span>
+                        </div>
+
+                        <!-- Line 1 (初爻) -->
+                        <div class="line-row active" data-index="0" id="lineRow-0">
+                            <div class="line-left-section">
+                                <span class="line-palace-branch" id="palace-0"></span>
+                                <span class="line-shiying" id="shiying-0"></span>
+                            </div>
+                            <div class="line-symbol-container">
+                                <div class="line-symbol" id="symbol-0">— —</div>
+                            </div>
+                            <div class="line-details">
+                                <span class="line-najia-branch" id="najia-0"></span>
+                            </div>
+                            <span class="line-beast" id="beast-0"></span>
+                        </div>
+                    </div>
+
+                    <!-- Virtual Coin Toss Arena (Hidden by default, shown when tossing) -->
+                    <div class="toss-arena" id="tossArena" style="display: none;">
+                        <div class="coins-container">
+                            <div class="coin" id="coin1"><span>乾</span></div>
+                            <div class="coin" id="coin2"><span>乾</span></div>
+                            <div class="coin" id="coin3"><span>乾</span></div>
+                        </div>
+                        <p class="toss-result-text" id="tossResultText">搖動金幣中...</p>
+                    </div>
+
+                    <!-- Hexagram Analysis Section (Slide in when all 6 lines are completed) -->
+                    <div class="analysis-card card" id="analysisCard" style="display: none;">
+                        <h2 class="card-title">☯ 卦象解析</h2>
+                        
+                        <div class="hexagrams-comparison">
+                            <!-- Original Hexagram -->
+                            <div class="hex-diagram-box">
+                                <span class="hex-box-title">本卦</span>
+                                <div class="mini-lines" id="originalMiniLines"></div>
+                                <span class="hex-name" id="originalHexName">乾為天</span>
+                                <span class="hex-trigrams" id="originalTrigrams">天 / 天</span>
+                            </div>
+                            
+                            <!-- Arrow -->
+                            <div class="hex-transform-arrow">➔</div>
+                            
+                            <!-- Changed Hexagram -->
+                            <div class="hex-diagram-box">
+                                <span class="hex-box-title">變卦</span>
+                                <div class="mini-lines" id="changedMiniLines"></div>
+                                <span class="hex-name" id="changedHexName">坤為地</span>
+                                <span class="hex-trigrams" id="changedTrigrams">地 / 地</span>
+                            </div>
+                        </div>
+
+                        <!-- General Interpretation -->
+                        <div class="hex-description-box">
+                            <h3 id="hexSummaryTitle">卦意簡介</h3>
+                            <p id="hexSummaryText">加載中...</p>
+                        </div>
+
+                        <!-- Diary Note Input -->
+                        <div class="notes-form-group">
+                            <div class="notes-label-container">
+                                <label for="recordNotes">占問事宜 / 解卦備忘：</label>
+                                <button type="button" class="btn-speech" id="btnSpeechRecord" title="點擊進行語音輸入">🎤 語音輸入</button>
+                            </div>
+                            <textarea id="recordNotes" rows="3" placeholder="例如：問今年事業運勢、投資狀況等..."></textarea>
+                        </div>
+
+                        <button class="btn btn-primary btn-glow" id="btnSaveRecord">💾 儲存占卦紀錄</button>
+                    </div>
+                </main>
+
+                <!-- Bottom Control / Input Actions -->
+                <footer class="app-control-footer">
+                    <!-- Line editing buttons (0, 1, 2, 3) -->
+                    <div class="input-panel">
+                        <button class="btn-input btn-input-0" data-value="0" id="btnInput0">
+                            <div class="btn-symbol circle-icon"></div>
+                            <span class="btn-num">0</span>
+                            <span class="btn-label">老陽</span>
+                        </button>
+                        <button class="btn-input btn-input-1" data-value="1" id="btnInput1">
+                            <div class="btn-symbol yin-icon"></div>
+                            <span class="btn-num">1</span>
+                            <span class="btn-label">少陰</span>
+                        </button>
+                        <button class="btn-input btn-input-2" data-value="2" id="btnInput2">
+                            <div class="btn-symbol yang-icon"></div>
+                            <span class="btn-num">2</span>
+                            <span class="btn-label">少陽</span>
+                        </button>
+                        <button class="btn-input btn-input-3" data-value="3" id="btnInput3">
+                            <div class="btn-symbol cross-icon"></div>
+                            <span class="btn-num">3</span>
+                            <span class="btn-label">老陰</span>
+                        </button>
+                    </div>
+
+                    <!-- Secondary Quick Actions -->
+                    <div class="quick-actions">
+                        <button class="btn btn-secondary" id="btnRestart">🔄 重新開始</button>
+                        <button class="btn btn-secondary btn-toss-gold" id="btnToss">🎲 模擬搖卦</button>
+                        <button class="btn btn-secondary" id="btnOpenHistory">📂 歷史紀錄</button>
+                    </div>
+                </footer>
+            </div>
+            
+            <!-- History Logs Drawer (Slides up from the bottom of the phone screen) -->
+            <div class="history-drawer" id="historyDrawer">
+                <div class="drawer-header">
+                    <div class="drawer-handle"></div>
+                    <h2>📂 占卦歷史紀錄</h2>
+                    <button class="btn-close-drawer" id="btnCloseHistory">✕</button>
+                </div>
+                <div class="drawer-body">
+                    <div class="history-search">
+                        <input type="text" id="historySearchInput" placeholder="搜尋占問事宜或卦名...">
+                    </div>
+                    <div class="history-list" id="historyList">
+                        <!-- History items will be injected here by JS -->
+                        <div class="empty-history">目前尚無儲存的紀錄</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Overlay to dim background when drawer is open -->
+            <div class="drawer-overlay" id="drawerOverlay"></div>
+            
+            <!-- Manual Editing Modal for single lines -->
+            <div class="modal" id="editModal" style="display: none;">
+                <div class="modal-content">
+                    <h3>修改 <span id="modalLineName">初爻</span> 數值</h3>
+                    <div class="edit-btn-grid">
+                        <button class="btn-edit-option" data-value="0">0 (◯ 老陽)</button>
+                        <button class="btn-edit-option" data-value="1">1 (⚋ 少陰)</button>
+                        <button class="btn-edit-option" data-value="2">2 (⚊ 少陽)</button>
+                        <button class="btn-edit-option" data-value="3">3 (✗ 老陰)</button>
+                    </div>
+                    <button class="btn btn-secondary btn-full" id="btnCancelEdit">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script Entry -->
+    <script src="app.js"></script>
+    <script>
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker registered successfully.', reg))
+                    .catch(err => console.log('Service Worker registration failed.', err));
+            });
+        }
+    </script>
+</body>
+</html>
