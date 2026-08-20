@@ -1,10 +1,12 @@
-const CACHE_NAME = 'liuyao-cache-v19';
+const CACHE_NAME = 'liuyao-cache-v20';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
     './style.css',
     './app.js',
     './manifest.json',
+    './icon_192.png',
+    './icon_512.png',
     'https://cdnjs.cloudflare.com/ajax/libs/lunar-javascript/1.7.4/lunar.min.js'
 ];
 
