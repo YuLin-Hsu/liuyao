@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.github.yulin_hsu.twa",
+        "sha256_cert_fingerprints": ["71:CD:3B:BD:69:96:07:8E:EF:2E:4F:3F:65:A4:74:C2:2A:5A:8F:16:9D:05:78:ED:2B:5E:82:92:E6:9D:92:92"]
+      }
+    }]
